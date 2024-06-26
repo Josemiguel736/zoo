@@ -50,6 +50,8 @@ while edad != '':
             tipos_entrada["NIÑO"]["CONTADOR"] = tipos_entrada["NIÑO"]["CONTADOR"] + 1
         elif int(edad) < 65 and int(edad)>13:
             tipos_entrada["ADULTO"]["CONTADOR"] = tipos_entrada["ADULTO"]["CONTADOR"] + 1
+        elif int(edad) <0:
+            print("Por favor escoge una edad valida ")
         else:
             tipos_entrada["JUBILADO"]["CONTADOR"] = tipos_entrada["JUBILADO"]["CONTADOR"] + 1
     except ValueError :
@@ -65,6 +67,4 @@ for tipo, valores in tipos_entrada.items():
     total+=subtotal
     print(f"{valores['CONTADOR']} {entrada_name(valores,'CONTADOR')} de {tipo}: {subtotal:.2f} Euros")
 
-print(f"Total a pagar: {total}")
-
-print(tipos_entrada["ADULTO"]["CONTADOR"])
+print(f"Total a pagar: {total} euros")
