@@ -27,32 +27,34 @@ tipos_entrada = {
     "JUBILADO": {"EDAD": float('inf'), "PRECIO": 18, "CONTADOR": 0}
 }
 
-""""
-Esta función se encarga de decidir si es entrada o entradas la palabra que acompaña al precio
-recibe un diccionario y la clave donde esta el contador al que queremos apuntar, si es distinto a 1
-asignara entradas
 
-"""
 def entrada_name(index,name_dic):
+    """"
+    Esta función se encarga de decidir si es entrada o entradas la palabra que acompaña al precio
+    recibe un diccionario y la clave donde esta el contador al que queremos apuntar, si es distinto a 1
+    asignara entradas
+
+    """
     entrada_name="entrada"
     if index[name_dic]!=1:
      entrada_name="entradas"
     return entrada_name
 
-"""
-Transforma la edad a entero
-si no se puede vuelve a pedir una edad valida
-"""
-def tansform_edad(edad):
-    return int(edad)
-        
 
-"""
-Devuelve True si edad es mayor que 0, si no devuelve False
-e imprime un aviso para el usuario
-"""
+def tansform_edad(edad):
+    """
+    Transforma la edad a entero
+    si no se puede vuelve a pedir una edad valida
+    """
+    return int(edad)        
+
+
 
 def upper_zero(edad):
+    """
+    Devuelve True si edad es mayor que 0, si no devuelve False
+    e imprime un aviso para el usuario
+    """
     result=True
     if edad<0:
         print("La edad no puede ser un número negativo, por favor ingrese una edad valida ")
@@ -60,38 +62,53 @@ def upper_zero(edad):
     return result
 
 
+def count_tickets(edad):
+ """
+    Suma el contador adecuado a cada grupo de entradas
+ """
 
-while True:
-    edad = input("Edad: ").strip()
-    
-    if edad=="": #Si el usuario pulsa intro el bucle se detendrá y continuará el programa calculando el precio
-        break
+ if edad < 3 and int(edad)>0: 
+     tipos_entrada["BEBE"]["CONTADOR"] = tipos_entrada["BEBE"]["CONTADOR"] + 1
+ elif edad < 13 and int(edad)>3:
+     tipos_entrada["NIÑO"]["CONTADOR"] = tipos_entrada["NIÑO"]["CONTADOR"] + 1
+ elif edad < 65 and int(edad)>13:
+     tipos_entrada["ADULTO"]["CONTADOR"] = tipos_entrada["ADULTO"]["CONTADOR"] + 1
+ elif edad <0:
+    print("Por favor escoge una edad valida ")
+ else:
+     tipos_entrada["JUBILADO"]["CONTADOR"] = tipos_entrada["JUBILADO"]["CONTADOR"] + 1
 
-    try: 
-      edad=tansform_edad(edad)#Convertimos la edad en un entero
 
-      if upper_zero(edad):#Si edad es mayor que cero lo aceptamos
 
-            if edad < 3 and int(edad)>0: #sumamos 1 al contador que corresponda
-                tipos_entrada["BEBE"]["CONTADOR"] = tipos_entrada["BEBE"]["CONTADOR"] + 1
-            elif edad < 13 and int(edad)>3:
-                tipos_entrada["NIÑO"]["CONTADOR"] = tipos_entrada["NIÑO"]["CONTADOR"] + 1
-            elif edad < 65 and int(edad)>13:
-                tipos_entrada["ADULTO"]["CONTADOR"] = tipos_entrada["ADULTO"]["CONTADOR"] + 1
-            elif edad <0:
-                print("Por favor escoge una edad valida ")
-            else:
-                tipos_entrada["JUBILADO"]["CONTADOR"] = tipos_entrada["JUBILADO"]["CONTADOR"] + 1
-    except ValueError :
-            print("Por favor escoge una edad valida ") #Si el usuarío nos da algo que no sea un número se lo avisaremos
+def print_cost():
+ """
+ Imprime los precios de las entradas, muestra tanto el valor de cada grupo de entradas como
+ el coste total
+ 
+ """
+ total = 0 
 
-    
-total = 0 
-
-for tipo, valores in tipos_entrada.items(): #sacamos el subtotal de cada tipo de entrada multiplicando contador por el precio
-    
+ for tipo, valores in tipos_entrada.items(): #sacamos el subtotal de cada tipo de entrada multiplicando contador por el precio    
     subtotal = valores['CONTADOR'] * valores['PRECIO']
     total+=subtotal #vamos sumando los subtotales para tener el total
     print(f"{valores['CONTADOR']} {entrada_name(valores,'CONTADOR')} de {tipo}: {subtotal:.2f} Euros") #imprimimos el precio de cada tipo de entrada
     
-print(f"Total a pagar: {total} euros") #imprimimos el monto total de euros a pagar
+ print(f"Total a pagar: {total} euros") #imprimimos el monto total de euros a pagar
+
+
+ 
+
+
+while True:
+    edad = input("Edad: ").strip()        
+    if edad=="": #Si el usuario pulsa intro el bucle se detendrá y continuará el programa calculando el precio
+        break
+    try: 
+      edad=tansform_edad(edad)#Convertimos la edad en un entero
+      if upper_zero(edad):#Si edad es mayor que cero lo aceptamos
+          count_tickets(edad)
+    except ValueError :
+            print("Por favor escoge una edad valida ") #Si el usuarío nos da algo que no sea un número se lo avisaremos
+
+print_cost()
+    
