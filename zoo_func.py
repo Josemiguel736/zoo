@@ -1,4 +1,5 @@
 
+from simple_screen import Print,locate,Input,cls
 tipos_entrada = {
     "BEBE": {"EDAD": 3, "PRECIO": 0, "CONTADOR": 0},
     "NIÑO": {"EDAD": 13, "PRECIO": 14, "CONTADOR": 0},
@@ -8,7 +9,7 @@ tipos_entrada = {
 
 
 def ask_age():
-   edad = input("Edad: ").strip()  
+   edad = Input("Edad: ").strip()  
    return edad
 
 def entrada_name(index,name_dic):
@@ -66,13 +67,15 @@ def print_cost():
  
  """
  total = 0 
-
+ pcount=5
  for tipo, valores in tipos_entrada.items(): #sacamos el subtotal de cada tipo de entrada multiplicando contador por el precio    
     subtotal = valores['CONTADOR'] * valores['PRECIO']
     total+=subtotal #vamos sumando los subtotales para tener el total
-    print(f"{valores['CONTADOR']} {entrada_name(valores,'CONTADOR')} de {tipo}: {subtotal:.2f} Euros") #imprimimos el precio de cada tipo de entrada
-    
- print(f"Total a pagar: {total} euros") #imprimimos el monto total de euros a pagar
+    pcount+=1
+    locate(4,pcount)
+    Print(f"{valores['CONTADOR']} {entrada_name(valores,'CONTADOR')} de {tipo}: {subtotal:.2f} Euros") #imprimimos el precio de cada tipo de entrada
+ locate(4,12)   
+ Print(f"Total a pagar: {total} euros") #imprimimos el monto total de euros a pagar
 
 
  
@@ -84,7 +87,9 @@ def age_validate():
    
    """
    ages=[]
-   while True:      
+   cls()
+   while True:   
+    locate(4,2)   
     edad=ask_age()
     if edad=="": #Si el usuario pulsa intro el bucle se detendrá y continuará el programa calculando el precio
         break
@@ -93,7 +98,8 @@ def age_validate():
       if upper_zero(edad):#Si edad es mayor que cero lo aceptamos
           ages.append(edad)
     except ValueError :
-            print("Por favor escoge una edad valida ") #Si el usuarío nos da algo que no sea un número se lo avisaremos
+            locate(4,3)
+            Print("Por favor escoge una edad valida ") #Si el usuarío nos da algo que no sea un número se lo avisaremos
    return ages
 
 
